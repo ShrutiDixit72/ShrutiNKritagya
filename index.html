@@ -43,6 +43,7 @@
             border-radius: 4px;
             font-family: "Times New Roman";
             margin-top: 10px;
+            width: 80%;
         }
 
         #moving-btn { position: absolute; }
@@ -69,10 +70,9 @@
 
         @keyframes glow {
             from { filter: drop-shadow(0 0 2px #fff); }
-            to { filter: drop-shadow(0 0 15px #68101d); }
+            to { filter: drop-shadow(0 0 15px #FFB6C1); }
         }
 
-        /* Floating Hearts & Confetti */
         .heart {
             position: absolute;
             color: rgba(255, 182, 193, 0.6);
@@ -106,7 +106,7 @@
             Section 1.3: Birthday hugs must be delivered within 24 hours of receipt. <br>
             Section 1.4: No complaining about how many buttons you have to click.
         </div>
-        <label><input type="checkbox" id="tos"> I agree to these highly legally binding terms.</label><br>
+        <label><input type="checkbox" id="tos" style="width: auto;"> I agree to these terms.</label><br>
         <button onclick="checkTos()">Continue</button>
     </div>
 
@@ -124,20 +124,22 @@
     </div>
 
     <div class="page" id="p5">
-        <h1>Quick Question.</h1>
-        <p>Who is Shruti's favorite person in the world?</p>
-        <input type="text" id="quiz1" placeholder="Type name here...">
-        <button onclick="checkQuiz()">Submit Answer</button>
+        <h1>Prove you know her.</h1>
+        <p>What is Shruti's favorite thing about you?</p>
+        <input type="text" id="loveInput" placeholder="Type your guess here...">
+        <br>
+        <button onclick="checkLove()">Submit Proof</button>
     </div>
 
     <div class="page" id="p6">
-        <h1>Wrong.</h1>
-        <p>Wait, actually that's correct, but the system says you're wrong. Please apologize to the website.</p>
+        <h1>Incorrect.</h1>
+        <p>The correct answer was: <b>"Everything."</b></p>
+        <p>Please apologize to the website for being wrong.</p>
         <button onclick="nextPage(7)">I'm sorry, website.</button>
     </div>
 
     <div class="page" id="p7">
-        <h1>Human Verification</h1>
+        <h1>Security Check</h1>
         <p>Select the "Soulmate" square:</p>
         <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding:10px;">
             <button onclick="alert('That is a picture of a toaster.')">Square A</button>
@@ -167,9 +169,8 @@
 
     <div class="page" id="p-final">
         <h1>Kritagya and Shruti</h1>
-        <h2 style="color: #501935;">HAPPY BIRTHDAY! 🎂</h2>
-        <!-- <p style="font-size: 1.2rem;">You are my favorite person to annoy, today and every day. Thank you for being you!</p> -->
-         <p style="font-size: 1.2rem;">Thanks for dealing with my nonsense. And You truly survived this website! I love you!</p>
+        <h2 style="color: #550f32;">HAPPY BIRTHDAY! 🎂</h2>
+        <p style="font-size: 1.2rem; color:#8f3160">You are my favorite person to annoy, today and every day. Thank you for being you!</p>
         <div style="font-size: 2rem;">❤️✨🎁🎉</div>
     </div>
 
@@ -180,7 +181,7 @@
             target.classList.add('active');
 
             if(id === 3) {
-                setTimeout(() => { document.getElementById('skip-btn').style.display = 'inline-block'; }, 3000);
+                setTimeout(() => { document.getElementById('skip-btn').style.display = 'inline-block'; }, 2500);
             }
             if(id === 'final') {
                 triggerSurprise();
@@ -207,10 +208,10 @@
             }
         }
 
-        function checkQuiz() {
-            const val = document.getElementById('quiz1').value.toLowerCase();
-            if(val.includes("kritagya") || val !== "") nextPage(6);
-            else alert("Type something!");
+        function checkLove() {
+            const val = document.getElementById('loveInput').value;
+            if(val === "") alert("You have to guess!");
+            else nextPage(6);
         }
 
         let ventCount = 1;
@@ -224,11 +225,10 @@
         }
 
         function triggerSurprise() {
-            // Background Hearts
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.classList.add('heart');
-                heart.innerHTML = ['❤️','💖','✨','🎂','🎉'][Math.floor(Math.random()*5)];
+                heart.innerHTML = ['❤️','💖','✨','🎂','🎉','🍭'][Math.floor(Math.random()*6)];
                 heart.style.left = Math.random() * 100 + 'vw';
                 heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
                 heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
@@ -236,7 +236,6 @@
                 setTimeout(() => heart.remove(), 5000);
             }, 200);
 
-            // Change background to a more festive Aliceblue gradient
             document.body.style.transition = "background 2s";
             document.body.style.background = "radial-gradient(circle, #F0F8FF 0%, #E6F3FF 100%)";
         }
