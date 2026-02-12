@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wait for it...</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #F0F8FF; /* Aliceblue */
+            font-family: "Times New Roman", Times, serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #5F9EA0;
+            text-align: center;
+        }
+
+        /* Page Transitions */
+        .page { display: none; padding: 30px; max-width: 500px; z-index: 10; }
+        .active { display: block; animation: fadeIn 0.6s ease-in-out; }
+
+        button {
+            background: white;
+            border: 1px solid #5F9EA0;
+            padding: 12px 24px;
+            font-family: "Times New Roman";
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+            color: #5F9EA0;
+            border-radius: 4px;
+        }
+
+        button:hover { background: #e6f3ff; transform: scale(1.05); }
+
+        input {
+            padding: 10px;
+            border: 1px solid #5F9EA0;
+            border-radius: 4px;
+            font-family: "Times New Roman";
+            margin-top: 10px;
+        }
+
+        #moving-btn { position: absolute; }
+
+        .tos-box {
+            height: 80px;
+            overflow-y: scroll;
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 0.8rem;
+            background: rgba(255,255,255,0.5);
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        /* SURPRISE PAGE STYLING */
+        #p-final h1 {
+            font-size: 4rem;
+            background: linear-gradient(45deg, #5F9EA0, #FFB6C1, #87CEEB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 2px #fff); }
+            to { filter: drop-shadow(0 0 15px #68101d); }
+        }
+
+        /* Floating Hearts & Confetti */
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.6);
+            font-size: 20px;
+            pointer-events: none;
+            animation: floatUp 5s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="page active" id="p1">
+        <h1>Hi Kritagya.</h1>
+        <p>Shruti has a gift for you. But first, we need to verify a few things.</p>
+        <button onclick="nextPage(2)">Verify My Identity</button>
+    </div>
+
+    <div class="page" id="p2">
+        <h3>Mandatory Agreement</h3>
+        <div class="tos-box">
+            Section 1.1: The user (Kritagya) agrees that Shruti is the boss. <br>
+            Section 1.2: You agree to stay patient even if this website is slow. <br>
+            Section 1.3: Birthday hugs must be delivered within 24 hours of receipt. <br>
+            Section 1.4: No complaining about how many buttons you have to click.
+        </div>
+        <label><input type="checkbox" id="tos"> I agree to these highly legally binding terms.</label><br>
+        <button onclick="checkTos()">Continue</button>
+    </div>
+
+    <div class="page" id="p3">
+        <h1>Updating Database...</h1>
+        <p>Transferring love files [34%]</p>
+        <div id="loader" style="font-weight: bold;">Loading patience.exe...</div>
+        <button onclick="nextPage(4)" id="skip-btn" style="display:none;">Skip to 100%</button>
+    </div>
+
+    <div class="page" id="p4">
+        <h1>Are you excited?</h1>
+        <p>Click the button to confirm your excitement level.</p>
+        <button id="moving-btn" onmouseover="moveBtn()">I AM VERY EXCITED</button>
+    </div>
+
+    <div class="page" id="p5">
+        <h1>Quick Question.</h1>
+        <p>Who is Shruti's favorite person in the world?</p>
+        <input type="text" id="quiz1" placeholder="Type name here...">
+        <button onclick="checkQuiz()">Submit Answer</button>
+    </div>
+
+    <div class="page" id="p6">
+        <h1>Wrong.</h1>
+        <p>Wait, actually that's correct, but the system says you're wrong. Please apologize to the website.</p>
+        <button onclick="nextPage(7)">I'm sorry, website.</button>
+    </div>
+
+    <div class="page" id="p7">
+        <h1>Human Verification</h1>
+        <p>Select the "Soulmate" square:</p>
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding:10px;">
+            <button onclick="alert('That is a picture of a toaster.')">Square A</button>
+            <button onclick="alert('That is a potato.')">Square B</button>
+            <button onclick="nextPage(8)">Square C</button>
+            <button onclick="alert('Close, but no.')">Square D</button>
+        </div>
+    </div>
+
+    <div class="page" id="p8">
+        <h1>Almost there!</h1>
+        <p>Redirecting to the birthday page...</p>
+        <button onclick="nextPage(9)">Click to Redirect</button>
+    </div>
+
+    <div class="page" id="p9">
+        <h1>Redirect Failed.</h1>
+        <p>Error 502: Birthday Spirit too high. Please manually vent the system by clicking 3 times.</p>
+        <button onclick="ventSystem(this)">Click 1</button>
+    </div>
+
+    <div class="page" id="p10">
+        <h1>Verification Complete.</h1>
+        <p>Kritagya, are you ready for your real gift from Shruti?</p>
+        <button onclick="nextPage('final')">YES, FINALLY!</button>
+    </div>
+
+    <div class="page" id="p-final">
+        <h1>Kritagya and Shruti</h1>
+        <h2 style="color: #501935;">HAPPY BIRTHDAY! 🎂</h2>
+        <!-- <p style="font-size: 1.2rem;">You are my favorite person to annoy, today and every day. Thank you for being you!</p> -->
+         <p style="font-size: 1.2rem;">Thanks for dealing with my nonsense. And You truly survived this website! I love you!</p>
+        <div style="font-size: 2rem;">❤️✨🎁🎉</div>
+    </div>
+
+    <script>
+        function nextPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            const target = id === 'final' ? document.getElementById('p-final') : document.getElementById('p' + id);
+            target.classList.add('active');
+
+            if(id === 3) {
+                setTimeout(() => { document.getElementById('skip-btn').style.display = 'inline-block'; }, 3000);
+            }
+            if(id === 'final') {
+                triggerSurprise();
+            }
+        }
+
+        function checkTos() {
+            if(document.getElementById('tos').checked) nextPage(3);
+            else alert("You must agree to the hugs clause to proceed!");
+        }
+
+        let moveCount = 0;
+        function moveBtn() {
+            const btn = document.getElementById('moving-btn');
+            if (moveCount < 5) {
+                btn.style.left = Math.random() * (window.innerWidth - 150) + 'px';
+                btn.style.top = Math.random() * (window.innerHeight - 100) + 'px';
+                moveCount++;
+            } else {
+                btn.onmouseover = null;
+                btn.style.position = "static";
+                btn.innerText = "Okay, click me now!";
+                btn.onclick = () => nextPage(5);
+            }
+        }
+
+        function checkQuiz() {
+            const val = document.getElementById('quiz1').value.toLowerCase();
+            if(val.includes("kritagya") || val !== "") nextPage(6);
+            else alert("Type something!");
+        }
+
+        let ventCount = 1;
+        function ventSystem(btn) {
+            ventCount++;
+            if(ventCount <= 3) {
+                btn.innerText = "Click " + ventCount;
+            } else {
+                nextPage(10);
+            }
+        }
+
+        function triggerSurprise() {
+            // Background Hearts
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.innerHTML = ['❤️','💖','✨','🎂','🎉'][Math.floor(Math.random()*5)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }, 200);
+
+            // Change background to a more festive Aliceblue gradient
+            document.body.style.transition = "background 2s";
+            document.body.style.background = "radial-gradient(circle, #F0F8FF 0%, #E6F3FF 100%)";
+        }
+    </script>
+</body>
+</html>
